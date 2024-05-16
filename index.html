@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabbed Content</title>
+<title>Peer Site</title>
 <style>
 /* Algemene stijl */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f8f8;
 }
 
 .container {
@@ -146,6 +145,9 @@ body {
       <div class="calc-button operator" onclick="appendToCalcDisplay('*')">*</div>
       <div class="calc-button" onclick="appendToCalcDisplay('0')">0</div>
       <div class="calc-button" onclick="appendToCalcDisplay('.')">.</div>
+      <div class="calc-button" onclick="appendToCalcDisplay('(')">(</div>
+      <div class="calc-button" onclick="appendToCalcDisplay(')')">)</div>
+      <div class="calc-button" onclick="appendToCalcDisplay('/')">÷</div>
       <div class="calc-button" onclick="clearCalcDisplay()">C</div>
       <div class="calc-button equal" onclick="calculate()">=</div>
     </div>
@@ -153,57 +155,43 @@ body {
 </div>
 
 <script>
+// Functie om een tabblad te openen
 function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
-    tabcontent[i].style.animation = '';
   }
   tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].classList.remove("active");
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
   document.getElementById(tabName).style.display = "block";
-  document.getElementById(tabName).style.animation = 'fadeEffect 0.5s';
-  evt.currentTarget.classList.add("active");
+  evt.currentTarget.className += " active";
 }
 
-function calculate() {
-  var expression = document.getElementById('calcDisplay').value;
-  var result = eval(expression);
-  document.getElementById('calcDisplay').value = result;
-}
+let calcDisplay = document.getElementById('calcDisplay');
 
+// Functie om een waarde toe te voegen aan het rekenmachine display
 function appendToCalcDisplay(value) {
-  document.getElementById('calcDisplay').value += value;
-}
-
-function clearCalcDisplay() {
-  document.getElementById('calcDisplay').value = '';
-}
-
-function calculateLove() {
-  var name1 = document.getElementById('name1').value.trim().toLowerCase();
-  var name2 = document.getElementById('name2').value.trim().toLowerCase();
-  if (name1 && name2) {
-    var letters = (name1 + name2).split('');
-    var count = 0;
-    for (var i = 0; i < letters.length; i++) {
-      count += letters[i].charCodeAt(0);
-    }
-    var percentage = count % 101;
-    document.getElementById('loveResult').innerHTML = 'Jullie liefdespercentage is: ' + percentage + '%';
-  } else {
-    document.getElementById('loveResult').innerHTML = 'Voer beide namen in.';
+  if (calcDisplay.value === '0' && value !== '.' && value !== '(') {
+    calcDisplay.value = '';
   }
+  calcDisplay.value += value;
 }
 
-// Voer animatie in bij het laden van de pagina
-window.onload = function() {
-  var tabs = document.getElementsByClassName("tabcontent");
-  for (var i = 0; i < tabs.length; i++) {
-    tabs[i].style.animation = 'fadeEffect 0.5s';
+// Functie om het rekenmachine display te wissen
+function clearCalcDisplay() {
+  calcDisplay.value = '0';
+}
+
+// Functie om een berekening uit te voeren
+function calculate() {
+  try {
+    let result = eval(calcDisplay.value);
+    calcDisplay.value = Number.isInteger(result) ? result : result.toFixed(4);
+  } catch (error) {
+    calcDisplay.value = 'Error';
   }
 }
 </script>
