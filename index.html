@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabbed Content</title>
+<style>
+/* Algemene stijl */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Stijl voor de tabbladen */
+.tab {
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+/* Linkerzijde van de tabbladen */
+.tab button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+/* Wijzig kleur van actieve tab */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Stijl voor de inhoud van de tabbladen */
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+  animation: fadeEffect 0.5s;
+}
+
+/* Animatie voor het vervagen van inhoud */
+@keyframes fadeEffect {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'LoveTester')">Love Tester</button>
+  <button class="tablinks" onclick="openTab(event, 'Rekenmachine')">Rekenmachine</button>
+</div>
+
+<div id="LoveTester" class="tabcontent">
+  <h2>Love Tester</h2>
+  <input type="text" id="name1" placeholder="Voer naam 1 in">
+  <input type="text" id="name2" placeholder="Voer naam 2 in">
+  <button onclick="calculateLove()">Test liefde</button>
+  <p id="loveResult"></p>
+</div>
+
+<div id="Rekenmachine" class="tabcontent">
+  <h2>Rekenmachine</h2>
+  <input type="number" id="num1" placeholder="Voer getal 1 in">
+  <input type="number" id="num2" placeholder="Voer getal 2 in">
+  <button onclick="calculate()">Bereken</button>
+  <p id="result"></p>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.classList.add("active");
+}
+
+function calculate() {
+  var num1 = parseFloat(document.getElementById('num1').value);
+  var num2 = parseFloat(document.getElementById('num2').value);
+  if (!isNaN(num1) && !isNaN(num2)) {
+    var result = num1 + num2;
+    document.getElementById('result').innerHTML = 'Resultaat: ' + result;
+  } else {
+    document.getElementById('result').innerHTML = 'Voer geldige getallen in.';
+  }
+}
+
+function calculateLove() {
+  var name1 = document.getElementById('name1').value.trim().toLowerCase();
+  var name2 = document.getElementById('name2').value.trim().toLowerCase();
+  if (name1 && name2) {
+    var letters = (name1 + name2).split('');
+    var count = 0;
+    for (var i = 0; i < letters.length; i++) {
+      count += letters[i].charCodeAt(0);
+    }
+    var percentage = count % 101;
+    document.getElementById('loveResult').innerHTML = 'Jullie liefdespercentage is: ' + percentage + '%';
+  } else {
+    document.getElementById('loveResult').innerHTML = 'Voer beide namen in.';
+  }
+}
+</script>
+
+</body>
+</html>
