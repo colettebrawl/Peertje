@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peer Site</title>
+<title>Tabbed Content</title>
 <style>
 /* Algemene stijl */
 body {
@@ -118,10 +118,10 @@ body {
   <div id="LoveTester" class="tabcontent">
     <h2 style="color: #333;">Love Tester</h2>
     <div class="input-container">
-      <input type="text" id="name1" placeholder="Voer naam 1 in">
-      <input type="text" id="name2" placeholder="Voer naam 2 in">
+      <input type="text" id="name1" placeholder="Naam 1">
+      <input type="text" id="name2" placeholder="Naam 2">
     </div>
-    <button onclick="calculateLove()" style="background-color: #333; color: #fff;">Test liefde</button>
+    <button onclick="calculateLove()">Test Liefde</button>
     <p id="loveResult"></p>
   </div>
 
@@ -147,8 +147,9 @@ body {
       <div class="calc-button" onclick="appendToCalcDisplay('.')">.</div>
       <div class="calc-button" onclick="appendToCalcDisplay('(')">(</div>
       <div class="calc-button" onclick="appendToCalcDisplay(')')">)</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('/')">÷</div>
+      <div class="calc-button operator" onclick="appendToCalcDisplay('/')">÷</div>
       <div class="calc-button" onclick="clearCalcDisplay()">C</div>
+      <div class="calc-button" onclick="backspaceCalcDisplay()">←</div>
       <div class="calc-button equal" onclick="calculate()">=</div>
     </div>
   </div>
@@ -170,6 +171,18 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " active";
 }
 
+// Functie voor Love Tester
+function calculateLove() {
+  let name1 = document.getElementById('name1').value;
+  let name2 = document.getElementById('name2').value;
+  if (name1 && name2) {
+    let loveScore = Math.floor(Math.random() * 100) + 1;
+    document.getElementById('loveResult').textContent = `${name1} en ${name2} hebben een liefdescore van ${loveScore}%!`;
+  } else {
+    document.getElementById('loveResult').textContent = 'Vul beide namen in!';
+  }
+}
+
 let calcDisplay = document.getElementById('calcDisplay');
 
 // Functie om een waarde toe te voegen aan het rekenmachine display
@@ -178,6 +191,14 @@ function appendToCalcDisplay(value) {
     calcDisplay.value = '';
   }
   calcDisplay.value += value;
+}
+
+// Functie om een karakter te verwijderen van het rekenmachine display
+function backspaceCalcDisplay() {
+  calcDisplay.value = calcDisplay.value.slice(0, -1);
+  if (calcDisplay.value === '') {
+    calcDisplay.value = '0';
+  }
 }
 
 // Functie om het rekenmachine display te wissen
@@ -194,6 +215,11 @@ function calculate() {
     calcDisplay.value = 'Error';
   }
 }
+
+// Open standaard de eerste tab
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.tablinks').click();
+});
 </script>
 
 </body>
