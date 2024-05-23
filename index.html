@@ -69,6 +69,11 @@ body {
   background-color: #4CAF50;
 }
 
+/* Maten Omzetter stijl */
+#MatenOmzetter {
+  background-color: #2196F3;
+}
+
 /* Invoervelden stijl */
 .input-container {
   display: flex;
@@ -77,7 +82,7 @@ body {
   margin-bottom: 20px;
 }
 
-.input-container input {
+.input-container input, .input-container select {
   width: calc(50% - 10px);
   padding: 10px;
   border-radius: 5px;
@@ -113,6 +118,7 @@ body {
   <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'LoveTester')">Love Tester</button>
     <button class="tablinks" onclick="openTab(event, 'Rekenmachine')">Rekenmachine</button>
+    <button class="tablinks" onclick="openTab(event, 'MatenOmzetter')">Maten Omzetter</button>
   </div>
 
   <div id="LoveTester" class="tabcontent">
@@ -152,6 +158,33 @@ body {
       <div class="calc-button" onclick="backspaceCalcDisplay()">←</div>
       <div class="calc-button equal" onclick="calculate()">=</div>
     </div>
+  </div>
+
+  <div id="MatenOmzetter" class="tabcontent">
+    <h2 style="color: #fff;">Maten Omzetter</h2>
+    <div class="input-container">
+      <input type="number" id="valueToConvert" placeholder="Waarde">
+      <select id="fromUnit">
+        <option value="mm">Millimeter (mm)</option>
+        <option value="cm">Centimeter (cm)</option>
+        <option value="dm">Decimeter (dm)</option>
+        <option value="m">Meter (m)</option>
+        <option value="dam">Dekameter (dam)</option>
+        <option value="hm">Hectometer (hm)</option>
+        <option value="km">Kilometer (km)</option>
+      </select>
+      <select id="toUnit">
+        <option value="mm">Millimeter (mm)</option>
+        <option value="cm">Centimeter (cm)</option>
+        <option value="dm">Decimeter (dm)</option>
+        <option value="m">Meter (m)</option>
+        <option value="dam">Dekameter (dam)</option>
+        <option value="hm">Hectometer (hm)</option>
+        <option value="km">Kilometer (km)</option>
+      </select>
+    </div>
+    <button onclick="convertUnits()">Converteer</button>
+    <p id="conversionResult"></p>
   </div>
 </div>
 
@@ -214,6 +247,31 @@ function calculate() {
   } catch (error) {
     calcDisplay.value = 'Error';
   }
+}
+
+// Functie om maten om te zetten
+function convertUnits() {
+  let value = parseFloat(document.getElementById('valueToConvert').value);
+  let fromUnit = document.getElementById('fromUnit').value;
+  let toUnit = document.getElementById('toUnit').value;
+
+  if (isNaN(value)) {
+    document.getElementById('conversionResult').textContent = 'Voer een geldige waarde in!';
+    return;
+  }
+
+  let conversionRates = {
+    mm: 1,
+    cm: 10,
+    dm: 100,
+    m: 1000,
+    dam: 10000,
+    hm: 100000,
+    km: 1000000
+  };
+
+  let convertedValue = value * conversionRates[fromUnit] / conversionRates[toUnit];
+  document.getElementById('conversionResult').textContent = `${value} ${fromUnit} is gelijk aan ${convertedValue} ${toUnit}`;
 }
 
 // Open standaard de eerste tab
