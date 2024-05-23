@@ -74,6 +74,11 @@ body {
   background-color: #2196F3;
 }
 
+/* Breuken naar Procent stijl */
+#BreukenNaarProcent {
+  background-color: #FF5733;
+}
+
 /* Invoervelden stijl */
 .input-container {
   display: flex;
@@ -119,6 +124,7 @@ body {
     <button class="tablinks" onclick="openTab(event, 'LoveTester')">Love Tester</button>
     <button class="tablinks" onclick="openTab(event, 'Rekenmachine')">Rekenmachine</button>
     <button class="tablinks" onclick="openTab(event, 'MatenOmzetter')">Maten Omzetter</button>
+    <button class="tablinks" onclick="openTab(event, 'BreukenNaarProcent')">Breuken naar Procent</button>
   </div>
 
   <div id="LoveTester" class="tabcontent">
@@ -185,6 +191,16 @@ body {
     </div>
     <button onclick="convertUnits()">Converteer</button>
     <p id="conversionResult"></p>
+  </div>
+
+  <div id="BreukenNaarProcent" class="tabcontent">
+    <h2 style="color: #fff;">Breuken naar Procent</h2>
+    <div class="input-container">
+      <input type="number" id="numerator" placeholder="Teller">
+      <input type="number" id="denominator" placeholder="Noemer">
+    </div>
+    <button onclick="convertFractionToPercent()">Converteer naar Procent</button>
+    <p id="fractionResult"></p>
   </div>
 </div>
 
@@ -272,6 +288,20 @@ function convertUnits() {
 
   let convertedValue = value * conversionRates[fromUnit] / conversionRates[toUnit];
   document.getElementById('conversionResult').textContent = `${value} ${fromUnit} is gelijk aan ${convertedValue} ${toUnit}`;
+}
+
+// Functie om breuken naar procent om te zetten
+function convertFractionToPercent() {
+  let numerator = parseFloat(document.getElementById('numerator').value);
+  let denominator = parseFloat(document.getElementById('denominator').value);
+
+  if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+    document.getElementById('fractionResult').textContent = 'Voer een geldige breuk in!';
+    return;
+  }
+
+  let percentValue = (numerator / denominator) * 100;
+  document.getElementById('fractionResult').textContent = `${numerator} / ${denominator} is gelijk aan ${percentValue.toFixed(2)}%`;
 }
 
 // Open standaard de eerste tab
