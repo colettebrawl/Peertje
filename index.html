@@ -1,313 +1,198 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabbed Content</title>
-<style>
-/* Algemene stijl */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiTool - Animatie Editie</title>
+    <style>
+        /* Algemene stijl */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #141E30, #243B55);
+            color: white;
+            text-align: center;
+        }
 
-.container {
-  max-width: 800px;
-  margin: 50px auto;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
 
-/* Stijl voor de tabbladen */
-.tab {
-  overflow: hidden;
-  background-color: #333;
-  border-bottom: 2px solid #ccc;
-}
+        /* Tab stijl */
+        .tab {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
 
-/* Linkerzijde van de tabbladen */
-.tab button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 15px 20px;
-  transition: 0.3s;
-  font-size: 18px;
-  color: #fff;
-}
+        .tab button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background: none;
+            font-size: 18px;
+            color: white;
+            transition: all 0.3s ease-in-out;
+        }
 
-/* Wijzig kleur van actieve tab */
-.tab button.active {
-  background-color: #555;
-}
+        .tab button:hover, .tab button.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
 
-/* Stijl voor de inhoud van de tabbladen */
-.tabcontent {
-  display: none;
-  padding: 20px;
-  border-top: 2px solid #ccc;
-  animation: fadeEffect 0.5s;
-}
+        /* Tab content */
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            animation: fadeEffect 0.7s ease-in-out;
+        }
 
-/* Animatie voor het vervagen van inhoud */
-@keyframes fadeEffect {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+        @keyframes fadeEffect {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-/* Love Tester stijl */
-#LoveTester {
-  background-color: #ffcc00;
-}
+        /* Input & Buttons */
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
 
-/* Rekenmachine stijl */
-#Rekenmachine {
-  background-color: #4CAF50;
-}
+        input, select, button {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
 
-/* Maten Omzetter stijl */
-#MatenOmzetter {
-  background-color: #2196F3;
-}
+        input, select {
+            width: 48%;
+        }
 
-/* Breuken naar Procent stijl */
-#BreukenNaarProcent {
-  background-color: #FF5733;
-}
+        button {
+            background: #FF4081;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-/* Invoervelden stijl */
-.input-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+        button:hover {
+            background: #D81B60;
+            transform: scale(1.05);
+        }
 
-.input-container input, .input-container select {
-  width: calc(50% - 10px);
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
+        /* Rekenmachine stijl */
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
 
-/* Rekenmachine knoppen stijl */
-.calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
-}
+        .calc-button {
+            padding: 15px;
+            border-radius: 5px;
+            background: #1E88E5;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-.calc-button {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+        .calc-button:hover {
+            background: #1565C0;
+            transform: scale(1.1);
+        }
 
-.calc-button:hover {
-  background-color: #f2f2f2;
-}
-</style>
+        /* Love Tester animatie */
+        #loveResult {
+            font-size: 22px;
+            margin-top: 20px;
+            animation: lovePulse 1s infinite alternate;
+        }
+
+        @keyframes lovePulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); color: #FF4081; }
+        }
+
+        /* Stijl voor verschillende tools */
+        #LoveTester { background: rgba(255, 0, 102, 0.2); }
+        #Rekenmachine { background: rgba(0, 128, 0, 0.2); }
+        #MatenOmzetter { background: rgba(0, 102, 204, 0.2); }
+        #BreukenNaarProcent { background: rgba(255, 102, 0, 0.2); }
+
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'LoveTester')">Love Tester</button>
-    <button class="tablinks" onclick="openTab(event, 'Rekenmachine')">Rekenmachine</button>
-    <button class="tablinks" onclick="openTab(event, 'MatenOmzetter')">Maten Omzetter</button>
-    <button class="tablinks" onclick="openTab(event, 'BreukenNaarProcent')">Breuken naar Procent</button>
-  </div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'LoveTester')">Love Tester</button>
+        <button class="tablinks" onclick="openTab(event, 'Rekenmachine')">Rekenmachine</button>
+        <button class="tablinks" onclick="openTab(event, 'MatenOmzetter')">Maten Omzetter</button>
+        <button class="tablinks" onclick="openTab(event, 'BreukenNaarProcent')">Breuken naar Procent</button>
+    </div>
 
-  <div id="LoveTester" class="tabcontent">
-    <h2 style="color: #333;">Love Tester</h2>
-    <div class="input-container">
-      <input type="text" id="name1" placeholder="Naam 1">
-      <input type="text" id="name2" placeholder="Naam 2">
+    <div id="LoveTester" class="tabcontent">
+        <h2>Love Tester ❤️</h2>
+        <div class="input-container">
+            <input type="text" id="name1" placeholder="Naam 1">
+            <input type="text" id="name2" placeholder="Naam 2">
+        </div>
+        <button onclick="calculateLove()">Test Liefde</button>
+        <p id="loveResult"></p>
     </div>
-    <button onclick="calculateLove()">Test Liefde</button>
-    <p id="loveResult"></p>
-  </div>
 
-  <div id="Rekenmachine" class="tabcontent">
-    <h2 style="color: #fff;">Rekenmachine</h2>
-    <div class="input-container">
-      <input type="text" id="calcDisplay" readonly style="background-color: #fff; color: #333;">
+    <div id="Rekenmachine" class="tabcontent">
+        <h2>Rekenmachine</h2>
+        <input type="text" id="calcDisplay" readonly>
+        <div class="calc-buttons">
+            <div class="calc-button" onclick="appendToCalcDisplay('7')">7</div>
+            <div class="calc-button" onclick="appendToCalcDisplay('8')">8</div>
+            <div class="calc-button" onclick="appendToCalcDisplay('9')">9</div>
+            <div class="calc-button" onclick="calculate()">=</div>
+        </div>
     </div>
-    <div class="calc-buttons">
-      <div class="calc-button" onclick="appendToCalcDisplay('7')">7</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('8')">8</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('9')">9</div>
-      <div class="calc-button operator" onclick="appendToCalcDisplay('+')">+</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('4')">4</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('5')">5</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('6')">6</div>
-      <div class="calc-button operator" onclick="appendToCalcDisplay('-')">-</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('1')">1</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('2')">2</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('3')">3</div>
-      <div class="calc-button operator" onclick="appendToCalcDisplay('*')">*</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('0')">0</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('.')">.</div>
-      <div class="calc-button" onclick="appendToCalcDisplay('(')">(</div>
-      <div class="calc-button" onclick="appendToCalcDisplay(')')">)</div>
-      <div class="calc-button operator" onclick="appendToCalcDisplay('/')">÷</div>
-      <div class="calc-button" onclick="clearCalcDisplay()">C</div>
-      <div class="calc-button" onclick="backspaceCalcDisplay()">←</div>
-      <div class="calc-button equal" onclick="calculate()">=</div>
-    </div>
-  </div>
 
-  <div id="MatenOmzetter" class="tabcontent">
-    <h2 style="color: #fff;">Maten Omzetter</h2>
-    <div class="input-container">
-      <input type="number" id="valueToConvert" placeholder="Waarde">
-      <select id="fromUnit">
-        <option value="mm">Millimeter (mm)</option>
-        <option value="cm">Centimeter (cm)</option>
-        <option value="dm">Decimeter (dm)</option>
-        <option value="m">Meter (m)</option>
-        <option value="dam">Dekameter (dam)</option>
-        <option value="hm">Hectometer (hm)</option>
-        <option value="km">Kilometer (km)</option>
-      </select>
-      <select id="toUnit">
-        <option value="mm">Millimeter (mm)</option>
-        <option value="cm">Centimeter (cm)</option>
-        <option value="dm">Decimeter (dm)</option>
-        <option value="m">Meter (m)</option>
-        <option value="dam">Dekameter (dam)</option>
-        <option value="hm">Hectometer (hm)</option>
-        <option value="km">Kilometer (km)</option>
-      </select>
-    </div>
-    <button onclick="convertUnits()">Converteer</button>
-    <p id="conversionResult"></p>
-  </div>
-
-  <div id="BreukenNaarProcent" class="tabcontent">
-    <h2 style="color: #fff;">Breuken naar Procent</h2>
-    <div class="input-container">
-      <input type="number" id="numerator" placeholder="Teller">
-      <input type="number" id="denominator" placeholder="Noemer">
-    </div>
-    <button onclick="convertFractionToPercent()">Converteer naar Procent</button>
-    <p id="fractionResult"></p>
-  </div>
 </div>
 
 <script>
-// Functie om een tabblad te openen
-function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
 
-// Functie voor Love Tester
-function calculateLove() {
-  let name1 = document.getElementById('name1').value;
-  let name2 = document.getElementById('name2').value;
-  if (name1 && name2) {
-    let loveScore = Math.floor(Math.random() * 100) + 1;
-    document.getElementById('loveResult').textContent = `${name1} en ${name2} hebben een liefdescore van ${loveScore}%!`;
-  } else {
-    document.getElementById('loveResult').textContent = 'Vul beide namen in!';
-  }
-}
+    function calculateLove() {
+        let loveScore = Math.floor(Math.random() * 100) + 1;
+        document.getElementById('loveResult').textContent = `Jullie liefdesscore is ${loveScore}%! ❤️`;
+    }
 
-let calcDisplay = document.getElementById('calcDisplay');
-
-// Functie om een waarde toe te voegen aan het rekenmachine display
-function appendToCalcDisplay(value) {
-  if (calcDisplay.value === '0' && value !== '.' && value !== '(') {
-    calcDisplay.value = '';
-  }
-  calcDisplay.value += value;
-}
-
-// Functie om een karakter te verwijderen van het rekenmachine display
-function backspaceCalcDisplay() {
-  calcDisplay.value = calcDisplay.value.slice(0, -1);
-  if (calcDisplay.value === '') {
-    calcDisplay.value = '0';
-  }
-}
-
-// Functie om het rekenmachine display te wissen
-function clearCalcDisplay() {
-  calcDisplay.value = '0';
-}
-
-// Functie om een berekening uit te voeren
-function calculate() {
-  try {
-    let result = eval(calcDisplay.value);
-    calcDisplay.value = Number.isInteger(result) ? result : result.toFixed(4);
-  } catch (error) {
-    calcDisplay.value = 'Error';
-  }
-}
-
-// Functie om maten om te zetten
-function convertUnits() {
-  let value = parseFloat(document.getElementById('valueToConvert').value);
-  let fromUnit = document.getElementById('fromUnit').value;
-  let toUnit = document.getElementById('toUnit').value;
-
-  if (isNaN(value)) {
-    document.getElementById('conversionResult').textContent = 'Voer een geldige waarde in!';
-    return;
-  }
-
-  let conversionRates = {
-    mm: 1,
-    cm: 10,
-    dm: 100,
-    m: 1000,
-    dam: 10000,
-    hm: 100000,
-    km: 1000000
-  };
-
-  let convertedValue = value * conversionRates[fromUnit] / conversionRates[toUnit];
-  document.getElementById('conversionResult').textContent = `${value} ${fromUnit} is gelijk aan ${convertedValue} ${toUnit}`;
-}
-
-// Functie om breuken naar procent om te zetten
-function convertFractionToPercent() {
-  let numerator = parseFloat(document.getElementById('numerator').value);
-  let denominator = parseFloat(document.getElementById('denominator').value);
-
-  if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
-    document.getElementById('fractionResult').textContent = 'Voer een geldige breuk in!';
-    return;
-  }
-
-  let percentValue = (numerator / denominator) * 100;
-  document.getElementById('fractionResult').textContent = `${numerator} / ${denominator} is gelijk aan ${percentValue.toFixed(2)}%`;
-}
-
-// Open standaard de eerste tab
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('.tablinks').click();
-});
+    document.addEventListener('DOMContentLoaded', () => document.querySelector('.tablinks').click());
 </script>
 
 </body>
